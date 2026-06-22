@@ -25,18 +25,50 @@
                         /
                         <a href="{{url_for('readcar',ms=servermana)}}">Read</a>
                         /
-                        <a href="{{url_for('updatecar')}}">Update</a>
+                        <a href="{{url_for('updatecar', ms=servermana)}}">Update</a>
                         /
-                        <a href="{{url_for('deletecar')}}">Delete</a>
+                        <a href="{{url_for('deletecar',ms=servermana)}}">Delete</a>
                         /
-                        <a href="{{url_for('searchcar')}}">Search</a>
+                        <a href="{{url_for('searchcar',ms=servermana)}}">Search</a>
                 </h3> 
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <h4>Update Car Data</h4>
-                <p>Silahkan diteruskan ... </p>
+                <p class="text-muted">Masukkan Nama Mobil yang ingin diubah dan isi data barunya.</p>
+                
+                <form role="form" action="{{url_for('updatecarsave', ms=servermana)}}" method="POST">
+                  <div class="form-group">
+                    <label for="carName">
+                      Target Name (Mobil yang ingin diupdate)
+                    </label>
+                    <input type="text" class="form-control" id="carName" name="carName" placeholder="Contoh: Toyota Supra" required>
+                  </div>
+                
+                  <hr>
+                  <h5>Data Baru:</h5>
+                
+                  <div class="form-group">
+                    <label for="newBrand">New Brand</label>
+                    <input type="text" class="form-control" id="newBrand" name='newBrand'>
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="newModel">New Model</label>
+                    <input type="text" class="form-control" id="newModel" name="newModel">
+                  </div>
+                
+                  <div class="form-group">
+                    <label for="newPrice">New Price</label>
+                    <input type="text" class="form-control" id="newPrice" name="newPrice">
+                  </div>
+                
+                  <button type="submit" class="btn btn-primary">
+                    Update Data
+                  </button>
+                  <a href="{{url_for('readcar', ms=servermana)}}" class="btn btn-default">Cancel</a>
+                </form>
             </div>
             
         </div>

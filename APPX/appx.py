@@ -142,17 +142,74 @@ def readcar(ms):
         rows = json.loads(datas.text)
         return render_template('readcar.html', rows=rows, servermana=ms, DB='DB-B')
 
-@app.route('/updatecar')
-def updatecar():
-    return render_template('updatecar.html')
+@app.route('/updatecar/<ms>')
+def updatecar(ms):
+    return render_template('updatecar.html', servermana=ms)
 
-@app.route('/deletecar')
-def deletecar():
-    return render_template('deletecar.html')
+@app.route('/updatecarsave/<ms>', methods=['GET', 'POST'])
+def updatecarsave(ms):
+    carName = request.form['carName']
+    newBrand = request.form['newBrand']
+    newModel = request.form['newModel']
+    newPrice = request.form['newPrice']
 
-@app.route('/searchcar')
-def searchcar():
-    return render_template('searchcar.html')
+    print("Mobil yang dicari :", carName)
+    print("Brand baru :", newBrand)
+    print("Model baru :", newModel)
+    print("Harga baru :", newPrice)
+    return redirect(url_for('readcar', ms=ms))
+
+@app.route('/deletecar/<ms>')
+def deletecar(ms):
+    return render_template('deletecar.html', servermana=ms)
+
+@app.route('/deletecarsave/<ms>', methods=['GET', 'POST'])
+def deletecarsave(ms):
+    carName = request.form['carName']
+
+    datacar = {
+        'carname' : carName
+    }
+    
+    datacar_json = json.dumps(datacar)
+
+    if ms == 'MS1':
+        alamatserver = "http://localhost:5051/cars/"
+    elif ms == 'MS2':
+        alamatserver = "http://localhost:5052/cars/"
+    elif ms == 'MS3':
+        alamatserver = "http://localhost:5053/cars/"
+
+    headers = {'Content-Type':'application/json', 'Accept':'text/plain'}
+
+    kirimdata = requests.delete(alamatserver, data=datacar_json, headers=headers)
+
+    return redirect(url_for('readcar', ms=ms))
+
+@app.route('/searchcar/<ms>', methods=['GET','POST'])
+def searchcar(ms):
+
+    keyword = request.args.get('keyword')
+
+    if not keyword:
+        return render_template(
+            'searchcar.html',
+            servermana=ms,
+            rows=[]
+        )
+    if ms == 'MS1':
+        alamatserver = f"http://localhost:5051/search/{keyword}"
+
+    elif ms == 'MS2':
+        alamatserver = f"http://localhost:5052/search/{keyword}"
+
+    elif ms == 'MS3':
+        alamatserver = f"http://localhost:5053/search/{keyword}"
+
+    datas = requests.get(alamatserver)
+    rows = json.loads(datas.text)
+
+    return render_template('searchcar.html', servermana=ms)
 
 
 if __name__ == '__main__':

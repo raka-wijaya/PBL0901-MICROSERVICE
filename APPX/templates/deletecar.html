@@ -24,18 +24,28 @@
                         /
                         <a href="{{url_for('readcar',ms=servermana)}}">Read</a>
                         /
-                        <a href="{{url_for('updatecar')}}">Update</a>
+                        <a href="{{url_for('updatecar', ms=servermana)}}">Update</a>
                         /
-                        <a href="{{url_for('deletecar')}}">Delete</a>
+                        <a href="{{url_for('deletecar', ms=servermana)}}">Delete</a>
                         /
-                        <a href="{{url_for('searchcar')}}">Search</a>
+                        <a href="{{url_for('searchcar', ms=servermana)}}">Search</a>
                 </h3> 
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <h4>Search Car Data</h4>
-                <p>Silahkan diteruskan ... </p>
+                <h4>Delete Car Data</h4>
+                <form role="form" action="{{url_for('deletecarsave', ms=servermana)}}" method="POST">
+                  <div class="form-group">
+                    <label for="isianName">
+                      Name
+                    </label>
+                    <input type="text" class="form-control" id="carName" name="carName">
+                  </div>
+                  <button type="submit" class="btn btn-primary">
+                    Delete
+                  </button>
+                </form>
             </div>
             
         </div>
