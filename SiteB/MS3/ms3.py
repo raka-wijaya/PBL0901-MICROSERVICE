@@ -32,7 +32,9 @@ class SEARCH(Resource):
     def get(self, keyword):
 
         rows = TBCarsWeb.select().where(
-            TBCarsWeb.carname.contains(keyword)
+            TBCarsWeb.carname.contains(keyword) |
+            TBCarsWeb.carbrand.contains(keyword) |
+            TBCarsWeb.carmodel.contains(keyword)
         )
 
         datas = []

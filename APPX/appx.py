@@ -189,27 +189,27 @@ def deletecarsave(ms):
 @app.route('/searchcar/<ms>', methods=['GET','POST'])
 def searchcar(ms):
 
-    keyword = request.args.get('keyword')
+    keyword = request.args.get('keyword', '').strip()
 
     if not keyword:
         return render_template(
             'searchcar.html',
             servermana=ms,
-            rows=[]
+            rows=[],
+            keyword=''
         )
+
     if ms == 'MS1':
         alamatserver = f"http://localhost:5051/search/{keyword}"
-
     elif ms == 'MS2':
         alamatserver = f"http://localhost:5052/search/{keyword}"
-
     elif ms == 'MS3':
         alamatserver = f"http://localhost:5053/search/{keyword}"
 
     datas = requests.get(alamatserver)
     rows = json.loads(datas.text)
 
-    return render_template('searchcar.html', servermana=ms)
+    return render_template('searchcar.html', servermana=ms, rows=rows, keyword=keyword)
 
 
 if __name__ == '__main__':

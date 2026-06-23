@@ -38,8 +38,7 @@
                 <h4>Search Car Data</h4>
                 <form role="form" action="{{url_for('searchcar', ms=servermana)}}" method="GET" class="form-inline">
                   <div class="form-group">
-                    <input type="text" class="form-control" name="query" placeholder="Cari nama atau brand..."
-                      value="{{ request.args.get('query', '') }}">
+                    <input type="text" class="form-control" name="keyword" placeholder="Cari nama atau brand..." value="{{ keyword }}">
                   </div>
                   <button type="submit" class="btn btn-primary">Search</button>
                   <a href="{{url_for('searchcar', ms=servermana)}}" class="btn btn-default">Reset</a>
@@ -49,7 +48,7 @@
                 <hr>
                 <div class="row">
                   <div class="col-md-12">
-                    {% if results %}
+                    {% if rows %}
                     <table class="table table-striped">
                       <thead>
                         <tr>
@@ -60,18 +59,18 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for car in results %}
+                        {% for row in rows %}
                         <tr>
-                          <td>{{ car.carname }}</td>
-                          <td>{{ car.carbrand }}</td>
-                          <td>{{ car.carmodel }}</td>
-                          <td>{{ car.carprice }}</td>
+                          <td>{{ row.carname }}</td>
+                          <td>{{ row.carbrand }}</td>
+                          <td>{{ row.carmodel }}</td>
+                          <td>{{ row.carprice }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
-                    {% elif request.args.get('query') %}
-                    <div class="alert alert-warning">Data tidak ditemukan untuk kata kunci "{{ request.args.get('query') }}"</div>
+                    {% elif keyword %}
+                    <div class="alert alert-warning">Data tidak ditemukan untuk kata kunci "{{ keyword }}"</div>
                     {% else %}
                     <p class="text-muted">Masukkan kata kunci untuk memulai pencarian.</p>
                     {% endif %}
